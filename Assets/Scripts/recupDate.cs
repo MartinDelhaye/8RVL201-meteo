@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class DateDisplay : MonoBehaviour
+public class RecupDate : MonoBehaviour
 {
     public TextMeshProUGUI jourNombre;
     public TextMeshProUGUI jourNom;
