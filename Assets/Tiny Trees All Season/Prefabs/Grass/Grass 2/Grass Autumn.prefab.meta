@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: b9a88bf4597ae0a44ac2991ef7339bdb
+timeCreated: 1520498703
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Prefabs/Grass/Grass 2/Grass Autumn.prefab
+  uploadId: 235012

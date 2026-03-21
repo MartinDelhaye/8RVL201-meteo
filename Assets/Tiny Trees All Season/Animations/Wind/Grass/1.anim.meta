@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f37fd203cf80e994788c3b378a098aad
+timeCreated: 1519922418
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Animations/Wind/Grass/1.anim
+  uploadId: 235012

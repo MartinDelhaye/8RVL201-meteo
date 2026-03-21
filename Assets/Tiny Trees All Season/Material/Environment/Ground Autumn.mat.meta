@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 2bfe23087e7cc294ba32099d95dffc00
+timeCreated: 1519549571
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Material/Environment/Ground Autumn.mat
+  uploadId: 235012

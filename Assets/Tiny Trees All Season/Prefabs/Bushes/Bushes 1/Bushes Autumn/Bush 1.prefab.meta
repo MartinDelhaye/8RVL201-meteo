@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0ed9aa0bd44a50641a4f9cb645df1c74
+timeCreated: 1520496210
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Prefabs/Bushes/Bushes 1/Bushes Autumn/Bush
+    1.prefab
+  uploadId: 235012
