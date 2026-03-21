@@ -5,7 +5,19 @@ using TMPro;
 
 public class RecupMeteo : MonoBehaviour
 {
+    public static RecupMeteo Instance;
+
     public TextMeshProUGUI temperatureText;
+    public TextMeshProUGUI hourText;
+
+    public bool isDay = true;
+    public int weatherCode = 0;
+    public bool isDataRecuperee = false;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -22,13 +34,21 @@ public class RecupMeteo : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
+            isDataRecuperee = true;
             string json = request.downloadHandler.text;
 
             WeatherData data = JsonUtility.FromJson<WeatherData>(json);
 
             float temp = data.current_weather.temperature;
+            temperatureText.text = temp.ToString("0.0") + "°C\n";
 
-            temperatureText.text = temp.ToString("0.0") + "°C";
+            isDay = data.current_weather.is_day == 1 ? true : false;
+
+            string rawTime = data.current_weather.time;
+            string heure = rawTime.Split('T')[1];
+            hourText.text = heure;
+
+            weatherCode = data.current_weather.weathercode;
         }
         else
         {
@@ -47,4 +67,7 @@ public class WeatherData
 public class CurrentWeather
 {
     public float temperature;
+    public int is_day;
+    public int weathercode;
+    public string time;
 }
