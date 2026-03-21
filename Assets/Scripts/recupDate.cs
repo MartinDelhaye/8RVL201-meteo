@@ -2,13 +2,20 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class recupDate : MonoBehaviour
+public class DateDisplay : MonoBehaviour
 {
-    public TextMeshProUGUI dateText;
+    public TextMeshProUGUI jourNombre;
+    public TextMeshProUGUI jourNom;
+    public TextMeshProUGUI mois;
+    public TextMeshProUGUI annee;
 
     void Start()
     {
         DateTime now = DateTime.Now;
-        dateText.text = now.ToString("dd MMMM yyyy");
+
+        jourNombre.text = now.ToString("dd");
+        jourNom.text = now.ToString("dddd");
+        mois.text = now.ToString("MMMM");
+        annee.text = now.ToString("yyyy");
     }
 }
