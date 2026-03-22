@@ -6,7 +6,6 @@ using TMPro;
 public class RecupMeteo : MonoBehaviour
 {
     public static RecupMeteo Instance;
-
     public TextMeshProUGUI temperatureText;
     public TextMeshProUGUI hourText;
 

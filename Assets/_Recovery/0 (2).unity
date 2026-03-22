@@ -1947,13 +1947,13 @@ MonoBehaviour:
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 496080520}
-        m_TargetAssemblyTypeName: InteractionButton, Assembly-CSharp
-        m_MethodName: NextDay
+      - m_Target: {fileID: 496080512}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2051,7 +2051,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: caa82ee4f44ceed4c96ba8264b8741d2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonJourPlus
+  m_EditorClassIdentifier: '::'
+  recupDate: {fileID: 247089420}
 --- !u!1 &585944237
 GameObject:
   m_ObjectHideFlags: 0
