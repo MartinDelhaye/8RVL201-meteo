@@ -23,6 +23,11 @@ public class RecupMeteo : MonoBehaviour
         UpdateWeather();
     }
 
+    void Update()
+    {
+        UpdateDayState();
+    }
+
     public void UpdateWeather()
     {
         StartCoroutine(GetWeather());
@@ -38,7 +43,7 @@ public class RecupMeteo : MonoBehaviour
             + "&start_date=" + formattedDate
             + "&end_date=" + formattedDate
             + "&timezone=auto";
-            
+
 
         UnityWebRequest request = UnityWebRequest.Get(url);
 
@@ -46,6 +51,7 @@ public class RecupMeteo : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
+            isDataRecuperee = true;
             string json = request.downloadHandler.text;
 
             WeatherDailyData data = JsonUtility.FromJson<WeatherDailyData>(json);
@@ -59,11 +65,20 @@ public class RecupMeteo : MonoBehaviour
                 tempMin.ToString("0") + "°";
 
             weatherCode = code;
+
+            UpdateDayState();
         }
         else
         {
             temperatureText.text = "Erreur API";
         }
+    }
+
+    private void UpdateDayState()
+    {
+        int hour = GestionDate.Instance.GetCurrentDate().Hour;
+
+        isDay = (hour >= 6 && hour < 18);
     }
 }
 
