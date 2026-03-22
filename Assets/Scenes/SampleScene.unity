@@ -1200,6 +1200,7 @@ MonoBehaviour:
   jourNom: {fileID: 783006856}
   mois: {fileID: 1456141289}
   annee: {fileID: 360460512}
+  heureText: {fileID: 2080058022}
 --- !u!114 &247089421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1213,7 +1214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RecupMeteo
   temperatureText: {fileID: 1335346310}
-  hourText: {fileID: 2080058022}
+  hourText: {fileID: 0}
   isDay: 0
   weatherCode: 0
   isDataRecuperee: 0

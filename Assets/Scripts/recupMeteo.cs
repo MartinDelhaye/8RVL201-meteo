@@ -2,12 +2,12 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 using TMPro;
+using System;
 
 public class RecupMeteo : MonoBehaviour
 {
     public static RecupMeteo Instance;
     public TextMeshProUGUI temperatureText;
-    public TextMeshProUGUI hourText;
 
     public bool isDay = true;
     public int weatherCode = 0;
@@ -20,12 +20,25 @@ public class RecupMeteo : MonoBehaviour
 
     void Start()
     {
+        UpdateWeather();
+    }
+
+    public void UpdateWeather()
+    {
         StartCoroutine(GetWeather());
     }
 
     IEnumerator GetWeather()
     {
-        string url = "https://api.open-meteo.com/v1/forecast?latitude=45.5&longitude=-73.6&current_weather=true";
+        DateTime date = GestionDate.Instance.GetCurrentDate();
+        string formattedDate = date.ToString("yyyy-MM-dd");
+
+        string url = "https://api.open-meteo.com/v1/forecast?latitude=45.5&longitude=-73.6"
+            + "&daily=temperature_2m_max,temperature_2m_min,weathercode"
+            + "&start_date=" + formattedDate
+            + "&end_date=" + formattedDate
+            + "&timezone=auto";
+            
 
         UnityWebRequest request = UnityWebRequest.Get(url);
 
@@ -33,21 +46,19 @@ public class RecupMeteo : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            isDataRecuperee = true;
             string json = request.downloadHandler.text;
 
-            WeatherData data = JsonUtility.FromJson<WeatherData>(json);
+            WeatherDailyData data = JsonUtility.FromJson<WeatherDailyData>(json);
 
-            float temp = data.current_weather.temperature;
-            temperatureText.text = temp.ToString("0.0") + "°C\n";
+            float tempMax = data.daily.temperature_2m_max[0];
+            float tempMin = data.daily.temperature_2m_min[0];
+            int code = data.daily.weathercode[0];
 
-            isDay = data.current_weather.is_day == 1 ? true : false;
+            temperatureText.text =
+                tempMax.ToString("0") + "° / " +
+                tempMin.ToString("0") + "°";
 
-            string rawTime = data.current_weather.time;
-            string heure = rawTime.Split('T')[1];
-            hourText.text = heure;
-
-            weatherCode = data.current_weather.weathercode;
+            weatherCode = code;
         }
         else
         {
@@ -57,16 +68,15 @@ public class RecupMeteo : MonoBehaviour
 }
 
 [System.Serializable]
-public class WeatherData
+public class WeatherDailyData
 {
-    public CurrentWeather current_weather;
+    public DailyData daily;
 }
 
 [System.Serializable]
-public class CurrentWeather
+public class DailyData
 {
-    public float temperature;
-    public int is_day;
-    public int weathercode;
-    public string time;
+    public float[] temperature_2m_max;
+    public float[] temperature_2m_min;
+    public int[] weathercode;
 }
