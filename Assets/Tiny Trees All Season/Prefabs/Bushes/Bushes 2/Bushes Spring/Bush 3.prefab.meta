@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ec56aeee80d9815459548a7dc63b3f3b
+timeCreated: 1520496884
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Prefabs/Bushes/Bushes 2/Bushes Spring/Bush
+    3.prefab
+  uploadId: 235012
