@@ -59,8 +59,8 @@ public class GestionFenetre : MonoBehaviour
         bool isRain = (codeMeteo >= 50 && codeMeteo <= 69) || (codeMeteo >= 80 && codeMeteo <= 99);
 
         // 🔹 Active/Désactive les particules
-        rainParticles.SetActive(isRain);
-        snowParticles.SetActive(isSnow);
+        rainParticles.SetActive(true);
+        snowParticles.SetActive(true);
 
         if (isRain)
         {
