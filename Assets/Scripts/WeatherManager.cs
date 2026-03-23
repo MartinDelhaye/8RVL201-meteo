@@ -8,9 +8,11 @@ public class WeatherManager : MonoBehaviour
 {
     public static WeatherManager Instance;
 
-    public WeatherDay[] forecastDays;
+    public WeatherData weatherData;
+    public WeatherDay[] WeatherDays => weatherData?.weatherDays;
 
-    public bool isDataRecuperee = false;
+    public bool isDataRecuperee => weatherData != null && weatherData.isDataRecuperee;
+    public static event Action OnWeatherReady;
 
     void Awake()
     {
@@ -43,80 +45,65 @@ public class WeatherManager : MonoBehaviour
             HourlyForecastData data = JsonUtility.FromJson<HourlyForecastData>(json);
 
             TransformData(data);
-            isDataRecuperee = true;
+            weatherData.isDataRecuperee = true;
+            OnWeatherReady?.Invoke();
         }
         else
         {
-            Debug.LogError(request.error);
+            WeatherDisplay.Instance.DisplayError();
+            weatherData = new WeatherData { weatherDays = new WeatherDay[0], isDataRecuperee = false };
+            OnWeatherReady?.Invoke();
         }
     }
 
     void TransformData(HourlyForecastData data)
     {
-        Dictionary<string, List<WeatherHour>> daysDict = new Dictionary<string, List<WeatherHour>>();
+        Dictionary<string, List<WeatherHour>> dataDict = new Dictionary<string, List<WeatherHour>>();
 
-        int count = data.hourly.time.Length;
+        int countData = data.hourly.time.Length;
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < countData; i++)
         {
-            DateTime dt = DateTime.Parse(data.hourly.time[i]);
-            string dayKey = dt.ToString("yyyy-MM-dd");
-
+            DateTime dateTime = DateTime.Parse(data.hourly.time[i]);
+            string dayKey = dateTime.ToString("yyyy-MM-dd");
+            if (!dataDict.ContainsKey(dayKey)) dataDict[dayKey] = new List<WeatherHour>();
+            
             WeatherHour hour = new WeatherHour
             {
-                dateTime = dt,
+                dateTime = dateTime,
                 temperature = data.hourly.temperature_2m[i],
                 weatherCode = data.hourly.weathercode[i]
             };
-
-            if (!daysDict.ContainsKey(dayKey))
-                daysDict[dayKey] = new List<WeatherHour>();
-
-            daysDict[dayKey].Add(hour);
+            dataDict[dayKey].Add(hour);
         }
 
-        forecastDays = new WeatherDay[daysDict.Count];
+        weatherData = new WeatherData();
+        weatherData.weatherDays = new WeatherDay[dataDict.Count];
 
         int index = 0;
-        foreach (var kvp in daysDict)
+
+        foreach (var focus in dataDict)
         {
-            forecastDays[index] = new WeatherDay
+            weatherData.weatherDays[index] = new WeatherDay
             {
-                date = DateTime.Parse(kvp.Key),
-                hours = kvp.Value.ToArray()
+                date = DateTime.Parse(focus.Key),
+                weatherHours = focus.Value.ToArray()
             };
+
             index++;
         }
     }
 }
 
-// Class pour les données
-[System.Serializable]
-public class WeatherDay
-{
-    public DateTime date;
-    public WeatherHour[] hours;
-}
-
-[System.Serializable]
-public class WeatherHour
-{
-    public DateTime dateTime;
-    public float temperature;
-    public int weatherCode;
-
-    public bool isDay => dateTime.Hour >= 6 && dateTime.Hour < 18;
-}
-
 
 // Class pour le JSON 
-[System.Serializable]
+[Serializable]
 public class HourlyForecastData
 {
     public HourlyData hourly;
 }
 
-[System.Serializable]
+[Serializable]
 public class HourlyData
 {
     public string[] time;

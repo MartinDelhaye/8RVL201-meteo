@@ -12,6 +12,8 @@ public class WeatherDisplay : MonoBehaviour
     public TextMeshProUGUI annee;
     public TextMeshProUGUI heureText;
     public TextMeshProUGUI tempText;
+    public TextMeshProUGUI tempMaxMinText;
+    public TextMeshProUGUI loadingText;
 
     void Awake()
     {
@@ -31,5 +33,18 @@ public class WeatherDisplay : MonoBehaviour
         heureText.text = dateTime.Hour.ToString("00") + "h - " + nextHour.ToString("00") + "h";
 
         tempText.text = hour.temperature.ToString("0.0") + "°C";
+        tempMaxMinText.text = "Max : " + day.GetMaxTemp().ToString("0.0") + "°C\nMin : " + day.GetMinTemp().ToString("0.0") + "°C";
+    }
+
+    public void DisplayError()
+    {
+        loadingText.text = "Erreur lors de la récupération des données météo.";
+        jourNom.text = "";
+        jourNombre.text = "";
+        mois.text = "";
+        annee.text = "";
+        heureText.text = "";
+        tempText.text = "";
+        tempMaxMinText.text = "";
     }
 }

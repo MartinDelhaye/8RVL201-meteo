@@ -11,18 +11,25 @@ public class InteractionButtons : MonoBehaviour
 
     private Renderer nextDayButtonRenderer;
     private Renderer previousDayButtonRenderer;
+    private bool isInitialized = false;
 
-    IEnumerator Start()
+
+    void Start()
     {
-        while (WeatherManager.Instance == null || !WeatherManager.Instance.isDataRecuperee)
-        {
-            yield return null;
-        }
+        if (WeatherManager.Instance != null) Init();
+        else WeatherManager.OnWeatherReady += Init;
+    }
 
+    void Init()
+    {
+        if(isInitialized) return;
+        isInitialized = true;
         nextDayButtonRenderer = nextDayButton.GetComponent<Renderer>();
         previousDayButtonRenderer = previousDayButton.GetComponent<Renderer>();
 
         UpdateButtonStates();
+
+        WeatherManager.OnWeatherReady -= Init;
     }
 
     public void NextDayButton()
@@ -40,7 +47,7 @@ public class InteractionButtons : MonoBehaviour
     private void UpdateButtonStates()
     {
         int currentIndex = WeatherController.Instance.currentDayIndex;
-        int maxIndex = WeatherManager.Instance.forecastDays.Length - 1;
+        int maxIndex = WeatherManager.Instance.WeatherDays.Length - 1;
 
         bool canNext = currentIndex < maxIndex;
         SetButtonState(nextDayButton, nextDayButtonRenderer, canNext);
@@ -49,9 +56,9 @@ public class InteractionButtons : MonoBehaviour
         SetButtonState(previousDayButton, previousDayButtonRenderer, canPrev);
     }
 
-    private void SetButtonState(GameObject button, Renderer rend, bool enabled)
+    private void SetButtonState(GameObject button, Renderer buttonRenderer, bool enabled)
     {
-        rend.material.color = enabled ? activeColor : disabledColor;
+        buttonRenderer.material.color = enabled ? activeColor : disabledColor;
         Collider col = button.GetComponent<Collider>();
         col.enabled = enabled;
     }

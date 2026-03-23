@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class WeatherController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class WeatherController : MonoBehaviour
 
     public int weatherCode;
     public bool isDay;
+    private bool isInitialized = false;
 
     void Awake()
     {
@@ -17,29 +19,31 @@ public class WeatherController : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating(nameof(TryInit), 0f, 0.5f);
+        if (WeatherManager.Instance != null) Init();
+        else WeatherManager.OnWeatherReady += Init;
     }
 
-    void TryInit()
+    void Init()
     {
+        if(isInitialized) return;
+        isInitialized = true;
+
+        WeatherManager.OnWeatherReady -= Init;
         if (WeatherManager.Instance != null && WeatherManager.Instance.isDataRecuperee)
         {
-            CancelInvoke(nameof(TryInit));
             DisplayCurrent();
         }
     }
 
     public void DisplayCurrent()
     {
-        var days = WeatherManager.Instance.forecastDays;
+        var weatherData = WeatherManager.Instance.weatherData;
 
-        if (days == null) return;
-
-        WeatherDay day = days[currentDayIndex];
-        WeatherHour hour = day.hours[currentHourIndex];
+        WeatherDay day = weatherData.weatherDays[currentDayIndex];
+        WeatherHour hour = day.weatherHours[currentHourIndex];
 
         weatherCode = hour.weatherCode;
-        isDay = hour.isDay;
+        isDay = hour.IsDay();
 
         WeatherDisplay.Instance.UpdateDisplay(day, hour);
     }
@@ -47,9 +51,9 @@ public class WeatherController : MonoBehaviour
 
     public void NextDay()
     {
-        var days = WeatherManager.Instance.forecastDays;
+        var weatherDays = WeatherManager.Instance.WeatherDays;
 
-        if (currentDayIndex < days.Length - 1)
+        if (currentDayIndex < weatherDays.Length - 1)
         {
             currentDayIndex++;
             currentHourIndex = 0;
@@ -69,9 +73,9 @@ public class WeatherController : MonoBehaviour
 
     public void NextHour()
     {
-        var day = WeatherManager.Instance.forecastDays[currentDayIndex];
+        var weatherDays = WeatherManager.Instance.WeatherDays;
 
-        if (currentHourIndex < day.hours.Length - 1)
+        if (currentHourIndex < weatherDays[currentDayIndex].weatherHours.Length - 1)
         {
             currentHourIndex++;
             DisplayCurrent();
