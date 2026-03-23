@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: bcbfcb2fd8a9c2a47bae5bf363749c6c
+timeCreated: 1520498686
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Prefabs/Grass/Grass 1/Grass Spring.prefab
+  uploadId: 235012

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 5546167a61f508c4ca28b1b9d40b5090
+timeCreated: 1518356375
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Material/Add/Water1.mat
+  uploadId: 235012

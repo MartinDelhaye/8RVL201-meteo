@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 569bc1f474f82cd43a0f41382f9548ba
+timeCreated: 1519799268
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Prefabs/Trees/Trees 1/Spring/Tree 1.prefab
+  uploadId: 235012

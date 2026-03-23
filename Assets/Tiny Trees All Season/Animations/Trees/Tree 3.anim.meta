@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: d2afebeaed65fc04d9a64c8fe874f807
+timeCreated: 1519582196
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Animations/Trees/Tree 3.anim
+  uploadId: 235012

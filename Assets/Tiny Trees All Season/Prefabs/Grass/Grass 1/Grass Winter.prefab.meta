@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 35020cad2cd19e44787f4d981b3ae12b
+timeCreated: 1520498684
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Prefabs/Grass/Grass 1/Grass Winter.prefab
+  uploadId: 235012

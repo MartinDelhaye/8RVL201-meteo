@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: eb67d9d423a65ca488dc821c72d3b1c5
+timeCreated: 1519799975
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Prefabs/Trees/Conifers 2/Spring Summer
+    Autumn/Tree 2.prefab
+  uploadId: 235012

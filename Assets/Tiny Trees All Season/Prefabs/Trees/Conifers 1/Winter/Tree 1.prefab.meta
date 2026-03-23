@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 38f59ee7a7e0bde43a5e1d93189acd85
+timeCreated: 1519799916
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Prefabs/Trees/Conifers 1/Winter/Tree 1.prefab
+  uploadId: 235012
