@@ -10,7 +10,6 @@ public class WeatherController : MonoBehaviour
 
     public int weatherCode;
     public bool isDay;
-    private bool isInitialized = false;
 
     void Awake()
     {
@@ -19,16 +18,13 @@ public class WeatherController : MonoBehaviour
 
     void Start()
     {
-        if (WeatherManager.Instance != null) Init();
-        else WeatherManager.OnWeatherReady += Init;
+        WeatherManager.OnWeatherReady += Init;
     }
 
     void Init()
     {
-        if(isInitialized) return;
-        isInitialized = true;
-
         WeatherManager.OnWeatherReady -= Init;
+
         if (WeatherManager.Instance != null && WeatherManager.Instance.isDataRecuperee)
         {
             DisplayCurrent();
@@ -37,15 +33,43 @@ public class WeatherController : MonoBehaviour
 
     public void DisplayCurrent()
     {
+        if (WeatherManager.Instance == null)
+        {
+            Debug.LogWarning("WeatherManager.Instance is null !");
+            return;
+        }
+
         var weatherData = WeatherManager.Instance.weatherData;
+        if (weatherData == null || weatherData.weatherDays == null || weatherData.weatherDays.Length == 0)
+        {
+            Debug.LogWarning("Pas de données météo disponibles !");
+            return;
+        }
+
+        if (currentDayIndex >= weatherData.weatherDays.Length)
+        {
+            Debug.LogWarning("currentDayIndex est hors limites !");
+            currentDayIndex = 0;
+        }
 
         WeatherDay day = weatherData.weatherDays[currentDayIndex];
+
+        if (day.weatherHours == null || day.weatherHours.Length == 0)
+        {
+            Debug.LogWarning("Pas d'heures disponibles pour ce jour !");
+            return;
+        }
+
+        if (currentHourIndex >= day.weatherHours.Length)
+            currentHourIndex = 0;
+
         WeatherHour hour = day.weatherHours[currentHourIndex];
 
         weatherCode = hour.weatherCode;
         isDay = hour.IsDay();
 
-        WeatherDisplay.Instance.UpdateDisplay(day, hour);
+        if (WeatherDisplay.Instance != null)
+            WeatherDisplay.Instance.UpdateDisplay(day, hour);
     }
 
 
@@ -78,8 +102,13 @@ public class WeatherController : MonoBehaviour
         if (currentHourIndex < weatherDays[currentDayIndex].weatherHours.Length - 1)
         {
             currentHourIndex++;
-            DisplayCurrent();
         }
+        else if (currentDayIndex < weatherDays.Length - 1)
+        {
+            currentDayIndex++;
+            currentHourIndex = 0;
+        }
+        DisplayCurrent();
     }
 
     public void PreviousHour()
@@ -87,7 +116,13 @@ public class WeatherController : MonoBehaviour
         if (currentHourIndex > 0)
         {
             currentHourIndex--;
-            DisplayCurrent();
         }
+        else if (currentDayIndex > 0)
+        {
+            currentDayIndex--;
+            var weatherDays = WeatherManager.Instance.WeatherDays;
+            currentHourIndex = weatherDays[currentDayIndex].weatherHours.Length - 1;
+        }
+        DisplayCurrent();
     }
 }

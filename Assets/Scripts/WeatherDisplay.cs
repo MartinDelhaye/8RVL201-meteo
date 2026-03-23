@@ -22,6 +22,7 @@ public class WeatherDisplay : MonoBehaviour
 
     public void UpdateDisplay(WeatherDay day, WeatherHour hour)
     {
+        loadingText.text = "";
         DateTime dateTime = hour.dateTime;
 
         jourNombre.text = dateTime.ToString("dd");

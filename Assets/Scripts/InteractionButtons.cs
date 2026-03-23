@@ -3,29 +3,32 @@ using System.Collections;
 
 public class InteractionButtons : MonoBehaviour
 {
+    public static InteractionButtons Instance;
     public GameObject nextDayButton;
     public GameObject previousDayButton;
+    public GameObject nextHourButton;
+    public GameObject previousHourButton;
 
     public Color activeColor = Color.red;
     public Color disabledColor = Color.gray;
 
     private Renderer nextDayButtonRenderer;
     private Renderer previousDayButtonRenderer;
-    private bool isInitialized = false;
+    private Renderer nextHourButtonRenderer;
+    private Renderer previousHourButtonRenderer;
 
 
     void Start()
     {
-        if (WeatherManager.Instance != null) Init();
-        else WeatherManager.OnWeatherReady += Init;
+        WeatherManager.OnWeatherReady += Init;
     }
 
     void Init()
     {
-        if(isInitialized) return;
-        isInitialized = true;
         nextDayButtonRenderer = nextDayButton.GetComponent<Renderer>();
         previousDayButtonRenderer = previousDayButton.GetComponent<Renderer>();
+        nextHourButtonRenderer = nextHourButton.GetComponent<Renderer>();
+        previousHourButtonRenderer = previousHourButton.GetComponent<Renderer>();
 
         UpdateButtonStates();
 
@@ -44,16 +47,36 @@ public class InteractionButtons : MonoBehaviour
         UpdateButtonStates();
     }
 
-    private void UpdateButtonStates()
+    public void NextHourButton()
     {
-        int currentIndex = WeatherController.Instance.currentDayIndex;
-        int maxIndex = WeatherManager.Instance.WeatherDays.Length - 1;
+        WeatherController.Instance.NextHour();
+        UpdateButtonStates();
+    }
 
-        bool canNext = currentIndex < maxIndex;
-        SetButtonState(nextDayButton, nextDayButtonRenderer, canNext);
+    public void PreviousHourButton()
+    {
+        WeatherController.Instance.PreviousHour();
+        UpdateButtonStates();
+    }
 
-        bool canPrev = currentIndex > 0;
-        SetButtonState(previousDayButton, previousDayButtonRenderer, canPrev);
+    public void UpdateButtonStates()
+    {
+        var weatherDays = WeatherManager.Instance.WeatherDays;
+        int dayIndex = WeatherController.Instance.currentDayIndex;
+        int hourIndex = WeatherController.Instance.currentHourIndex;
+
+        bool canNextDay = dayIndex < weatherDays.Length - 1;
+        bool canPrevDay = dayIndex > 0;
+
+        SetButtonState(nextDayButton, nextDayButtonRenderer, canNextDay);
+        SetButtonState(previousDayButton, previousDayButtonRenderer, canPrevDay);
+
+        bool canNextHour = !(dayIndex == weatherDays.Length - 1 &&
+                             hourIndex == weatherDays[dayIndex].weatherHours.Length - 1);
+        bool canPrevHour = !(dayIndex == 0 && hourIndex == 0);
+
+        SetButtonState(nextHourButton, nextHourButtonRenderer, canNextHour);
+        SetButtonState(previousHourButton, previousHourButtonRenderer, canPrevHour);
     }
 
     private void SetButtonState(GameObject button, Renderer buttonRenderer, bool enabled)
