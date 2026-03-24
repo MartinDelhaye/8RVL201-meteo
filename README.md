@@ -118,7 +118,9 @@ Le projet est structuré autour de plusieurs composants principaux :
 ## 🎨 Assets (Unity Asset Store)
 Le projet utilise des assets provenant du Unity Asset Store pour :
 
-* ...
+* Gérer les ciels
+* Afficher les arbres et le sol du decor de la fenêtre
+* Afficher les particules de neige et de pluie 
 
 ---
 
