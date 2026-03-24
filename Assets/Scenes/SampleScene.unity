@@ -3835,7 +3835,8 @@ MonoBehaviour:
   rainSound: {fileID: 8300000, guid: 7eaf418997ff63947adec1b22154be06, type: 3}
   snowSound: {fileID: 8300000, guid: 97b37347a0be4ff49bca51a9cc8407ce, type: 3}
   sunSound: {fileID: 8300000, guid: b8624602d46705f4fb6aa3350cd43efb, type: 3}
-  cloudSound: {fileID: 0}
+  cloudSound: {fileID: 8300000, guid: ecbade351ffc39448ade6c185db16720, type: 3}
+  lightPaysage: {fileID: 1959036062}
 --- !u!4 &686405847
 Transform:
   m_ObjectHideFlags: 0
@@ -8865,13 +8866,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959036059}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
+  m_LocalRotation: {x: 0.6478922, y: -0.28325912, z: -0.28325912, w: 0.6478922}
   m_LocalPosition: {x: -22.51, y: 8.6, z: -13.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2132820488}
-  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 42.77, y: -90, z: -90}
 --- !u!114 &1959036061
 MonoBehaviour:
   m_ObjectHideFlags: 0
