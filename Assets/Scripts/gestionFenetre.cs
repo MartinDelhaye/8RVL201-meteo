@@ -24,6 +24,14 @@ public class GestionFenetre : MonoBehaviour
     [Header("Objet à modifier")]
     public Renderer planeRenderer;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+
+    public AudioClip rainSound;
+    public AudioClip snowSound;
+    public AudioClip sunSound;
+    public AudioClip cloudSound;
+
     void Start()
     {
         WeatherManager.OnWeatherReady += Init;
@@ -47,6 +55,13 @@ public class GestionFenetre : MonoBehaviour
             UpdateMeteo();
         }
     }
+    void PlaySound(AudioClip clip)
+    {
+        if (audioSource.clip == clip && audioSource.isPlaying) return;
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
 
     void UpdateMeteo()
     {
@@ -66,16 +81,29 @@ public class GestionFenetre : MonoBehaviour
         {
             rainPS.Play();
             snowPS.Stop();
+
+            PlaySound(rainSound);
         }
         else if (isSnow)
         {
             rainPS.Stop();
             snowPS.Play();
+
+            PlaySound(snowSound);
         }
-        else
+        else if (isCloud)
         {
             rainPS.Stop();
             snowPS.Stop();
+
+            PlaySound(sunSound); // ou un son de vent si tu veux être stylé
+        }
+        else if (isSun)
+        {
+            rainPS.Stop();
+            snowPS.Stop();
+
+            PlaySound(sunSound);
         }
 
         // 🔹 Change la skybox et la texture
