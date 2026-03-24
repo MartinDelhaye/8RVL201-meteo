@@ -26,11 +26,13 @@ public class GestionFenetre : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource audioSource;
-
     public AudioClip rainSound;
     public AudioClip snowSound;
     public AudioClip sunSound;
     public AudioClip cloudSound;
+
+    [Header("Lighting")]
+    public Light lightPaysage;
 
     void Start()
     {
@@ -55,9 +57,11 @@ public class GestionFenetre : MonoBehaviour
             UpdateMeteo();
         }
     }
+
     void PlaySound(AudioClip clip)
     {
         if (audioSource.clip == clip && audioSource.isPlaying) return;
+
         audioSource.Stop();
         audioSource.clip = clip;
         audioSource.Play();
@@ -66,14 +70,17 @@ public class GestionFenetre : MonoBehaviour
     void UpdateMeteo()
     {
         int codeMeteo = WeatherController.Instance.weatherCode;
-        bool isDay = WeatherController.Instance.isDay;
+        //int hour = WeatherController.Instance.currentHourIndex;
+        int hour = 22;
+
+        bool isDay = (hour >= 6 && hour < 18);
 
         bool isSun = (codeMeteo >= 0 && codeMeteo <= 19);
         bool isCloud = (codeMeteo >= 20 && codeMeteo <= 49);
         bool isSnow = (codeMeteo >= 70 && codeMeteo <= 79);
         bool isRain = (codeMeteo >= 50 && codeMeteo <= 69) || (codeMeteo >= 80 && codeMeteo <= 99);
 
-        // 🔹 Active/Désactive les particules
+        // 🔹 Particules
         rainParticles.SetActive(true);
         snowParticles.SetActive(true);
 
@@ -81,35 +88,36 @@ public class GestionFenetre : MonoBehaviour
         {
             rainPS.Play();
             snowPS.Stop();
-
             PlaySound(rainSound);
         }
         else if (isSnow)
         {
             rainPS.Stop();
             snowPS.Play();
-
             PlaySound(snowSound);
         }
         else if (isCloud)
         {
             rainPS.Stop();
             snowPS.Stop();
-
-            PlaySound(sunSound); // ou un son de vent si tu veux être stylé
+            PlaySound(cloudSound);
         }
         else if (isSun)
         {
             rainPS.Stop();
             snowPS.Stop();
-
             PlaySound(sunSound);
         }
 
-        // 🔹 Change la skybox et la texture
-        if (isSnow)
+        // 🔹 SKYBOX + TEXTURE (avec gestion nuit)
+        if (!isDay)
         {
-            RenderSettings.skybox = skyRain; // ou skySnow si tu en as
+            RenderSettings.skybox = skyNight;
+            planeRenderer.material.SetTexture("_BaseMap", camEte);
+        }
+        else if (isSnow)
+        {
+            RenderSettings.skybox = skyRain;
             planeRenderer.material.SetTexture("_BaseMap", camNeige);
         }
         else if (isRain)
@@ -128,7 +136,28 @@ public class GestionFenetre : MonoBehaviour
             planeRenderer.material.SetTexture("_BaseMap", camEte);
         }
 
-        // 🔥 Mise à jour lumière globale
+        // 🔹 LUMIÈRE (soleil)
+        if (lightPaysage != null)
+        {
+            if (!isDay)
+            {
+                lightPaysage.enabled = true;
+                lightPaysage.intensity = 5;
+            }
+            else
+            {
+                lightPaysage.enabled = true;
+
+                float t = Mathf.InverseLerp(6f, 18f, hour);
+                float angle = Mathf.Lerp(15f, 150f, t);
+
+                lightPaysage.transform.rotation = Quaternion.Euler(angle, 0f, 0f);
+
+                lightPaysage.intensity = 5;
+            }
+        }
+
+        // 🔥 Update lumière globale
         DynamicGI.UpdateEnvironment();
     }
 }
