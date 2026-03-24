@@ -17,6 +17,11 @@ public class InteractionButtons : MonoBehaviour
     public Color disabledColor = Color.gray;
     public Color hoverColor = Color.white;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip buttonClickSound;
+
+
     // Renderers
     private Renderer nextDayRenderer;
     private Renderer previousDayRenderer;
@@ -43,28 +48,39 @@ public class InteractionButtons : MonoBehaviour
         UpdateButtonStates();
         WeatherManager.OnWeatherReady -= Init;
     }
+    void PlayClickSound()
+    {
+        if (audioSource != null && buttonClickSound != null)
+        {
+            audioSource.PlayOneShot(buttonClickSound);
+        }
+    }
 
     // Button click handlers
     public void NextDayButton()
     {
+        PlayClickSound();
         WeatherController.Instance.NextDay();
         UpdateButtonStates();
     }
 
     public void PreviousDayButton()
     {
+        PlayClickSound();
         WeatherController.Instance.PreviousDay();
         UpdateButtonStates();
     }
 
     public void NextHourButton()
     {
+        PlayClickSound();
         WeatherController.Instance.NextHour();
         UpdateButtonStates();
     }
 
     public void PreviousHourButton()
     {
+        PlayClickSound();
         WeatherController.Instance.PreviousHour();
         UpdateButtonStates();
     }
