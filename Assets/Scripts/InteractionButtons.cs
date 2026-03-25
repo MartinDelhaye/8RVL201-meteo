@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class InteractionButtons : MonoBehaviour
 {
@@ -85,17 +86,19 @@ public class InteractionButtons : MonoBehaviour
         UpdateButtonStates();
     }
 
-    // Hover enter / exit
-    public void OnHoverEnter(GameObject button)
+
+    public void OnHoverEnter(XRBaseInteractable interactable)
     {
-        Outline outline = button.GetComponent<Outline>();
-        if (outline != null) outline.effectColor = Color.white;
+        if (interactable == null) return;
+        Outline outline = interactable.gameObject.GetComponent<Outline>();
+        if (outline != null) outline.effectColor = hoverColor;
     }
 
-    public void OnHoverExit(GameObject button)
+    public void OnHoverExit(XRBaseInteractable interactable)
     {
-        Outline outline = button.GetComponent<Outline>();
-        if (outline != null) outline.effectColor = Color.clear; // ou couleur par défaut
+        if (interactable == null) return;
+        Outline outline = interactable.gameObject.GetComponent<Outline>();
+        if (outline != null) outline.effectColor = Color.clear;
     }
 
     // Update button states based on current day/hour
@@ -123,6 +126,6 @@ public class InteractionButtons : MonoBehaviour
     {
         rend.material.color = enabled ? activeColor : disabledColor;
         Collider col = button.GetComponent<Collider>();
-        if(col != null) col.enabled = enabled;
+        if (col != null) col.enabled = enabled;
     }
 }
