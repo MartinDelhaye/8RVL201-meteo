@@ -1,65 +1,130 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class InteractionButtons : MonoBehaviour
 {
+    public static InteractionButtons Instance;
+
+    [Header("Buttons")]
     public GameObject nextDayButton;
     public GameObject previousDayButton;
+    public GameObject nextHourButton;
+    public GameObject previousHourButton;
 
+    [Header("Colors")]
     public Color activeColor = Color.red;
     public Color disabledColor = Color.gray;
+    public Color hoverColor = Color.pink;
 
-    private Renderer nextDayButtonRenderer;
-    private Renderer previousDayButtonRenderer;
-    private bool isInitialized = false;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip buttonClickSound;
 
+
+    // Renderers
+    private Renderer nextDayRenderer;
+    private Renderer previousDayRenderer;
+    private Renderer nextHourRenderer;
+    private Renderer previousHourRenderer;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
-        if (WeatherManager.Instance != null) Init();
-        else WeatherManager.OnWeatherReady += Init;
+        WeatherManager.OnWeatherReady += Init;
     }
 
     void Init()
     {
-        if(isInitialized) return;
-        isInitialized = true;
-        nextDayButtonRenderer = nextDayButton.GetComponent<Renderer>();
-        previousDayButtonRenderer = previousDayButton.GetComponent<Renderer>();
+        nextDayRenderer = nextDayButton.GetComponent<Renderer>();
+        previousDayRenderer = previousDayButton.GetComponent<Renderer>();
+        nextHourRenderer = nextHourButton.GetComponent<Renderer>();
+        previousHourRenderer = previousHourButton.GetComponent<Renderer>();
 
         UpdateButtonStates();
-
         WeatherManager.OnWeatherReady -= Init;
     }
+    void PlayClickSound()
+    {
+        if (audioSource != null && buttonClickSound != null)
+        {
+            audioSource.PlayOneShot(buttonClickSound);
+        }
+    }
 
+    // Button click handlers
     public void NextDayButton()
     {
+        PlayClickSound();
         WeatherController.Instance.NextDay();
         UpdateButtonStates();
     }
 
     public void PreviousDayButton()
     {
+        PlayClickSound();
         WeatherController.Instance.PreviousDay();
         UpdateButtonStates();
     }
 
-    private void UpdateButtonStates()
+    public void NextHourButton()
     {
-        int currentIndex = WeatherController.Instance.currentDayIndex;
-        int maxIndex = WeatherManager.Instance.WeatherDays.Length - 1;
-
-        bool canNext = currentIndex < maxIndex;
-        SetButtonState(nextDayButton, nextDayButtonRenderer, canNext);
-
-        bool canPrev = currentIndex > 0;
-        SetButtonState(previousDayButton, previousDayButtonRenderer, canPrev);
+        PlayClickSound();
+        WeatherController.Instance.NextHour();
+        UpdateButtonStates();
     }
 
-    private void SetButtonState(GameObject button, Renderer buttonRenderer, bool enabled)
+    public void PreviousHourButton()
     {
-        buttonRenderer.material.color = enabled ? activeColor : disabledColor;
+        PlayClickSound();
+        WeatherController.Instance.PreviousHour();
+        UpdateButtonStates();
+    }
+
+    public void OnHoverEnter(XRBaseInteractable interactable)
+    {
+        if (interactable == null) return;
+        Renderer rend = interactable.gameObject.GetComponent<Renderer>();
+        rend.material.color = hoverColor;
+    }
+
+    public void OnHoverExit(XRBaseInteractable interactable)
+    {
+        if (interactable == null) return;
+        Renderer rend = interactable.gameObject.GetComponent<Renderer>();
+        rend.material.color = activeColor;
+    }
+
+    // Update button states based on current day/hour
+    public void UpdateButtonStates()
+    {
+        if (WeatherManager.Instance == null) return;
+
+        var weatherDays = WeatherManager.Instance.WeatherDays;
+        int dayIndex = WeatherController.Instance.currentDayIndex;
+        int hourIndex = WeatherController.Instance.currentHourIndex;
+
+        bool canNextDay = dayIndex < weatherDays.Length - 1;
+        bool canPrevDay = dayIndex > 0;
+        bool canNextHour = !(dayIndex == weatherDays.Length - 1 &&
+                             hourIndex == weatherDays[dayIndex].weatherHours.Length - 1);
+        bool canPrevHour = !(dayIndex == 0 && hourIndex == 0);
+
+        SetButtonState(nextDayButton, nextDayRenderer, canNextDay);
+        SetButtonState(previousDayButton, previousDayRenderer, canPrevDay);
+        SetButtonState(nextHourButton, nextHourRenderer, canNextHour);
+        SetButtonState(previousHourButton, previousHourRenderer, canPrevHour);
+    }
+
+    private void SetButtonState(GameObject button, Renderer rend, bool enabled)
+    {
+        rend.material.color = enabled ? activeColor : disabledColor;
         Collider col = button.GetComponent<Collider>();
-        col.enabled = enabled;
+        if (col != null) col.enabled = enabled;
     }
 }

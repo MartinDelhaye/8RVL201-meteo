@@ -46,12 +46,19 @@ public class WeatherManager : MonoBehaviour
 
             TransformData(data);
             weatherData.isDataRecuperee = true;
+
+            int actualHour = DateTime.Now.Hour;
+            WeatherController.Instance.currentHourIndex = actualHour;
             OnWeatherReady?.Invoke();
         }
         else
         {
             WeatherDisplay.Instance.DisplayError();
-            weatherData = new WeatherData { weatherDays = new WeatherDay[0], isDataRecuperee = false };
+            weatherData = new WeatherData
+            {
+                weatherDays = new WeatherDay[0],
+                isDataRecuperee = false
+            };
             OnWeatherReady?.Invoke();
         }
     }
@@ -67,7 +74,7 @@ public class WeatherManager : MonoBehaviour
             DateTime dateTime = DateTime.Parse(data.hourly.time[i]);
             string dayKey = dateTime.ToString("yyyy-MM-dd");
             if (!dataDict.ContainsKey(dayKey)) dataDict[dayKey] = new List<WeatherHour>();
-            
+
             WeatherHour hour = new WeatherHour
             {
                 dateTime = dateTime,

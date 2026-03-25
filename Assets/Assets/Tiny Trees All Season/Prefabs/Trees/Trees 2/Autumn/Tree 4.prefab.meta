@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 70bf4672f6cb0554ca3a7c25a7665846
+timeCreated: 1519799529
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Prefabs/Trees/Trees 2/Autumn/Tree 4.prefab
+  uploadId: 235012

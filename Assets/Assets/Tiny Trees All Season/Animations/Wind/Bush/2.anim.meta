@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 140b2ef7b640ff645b24254d7453efd4
+timeCreated: 1519985061
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Animations/Wind/Bush/2.anim
+  uploadId: 235012

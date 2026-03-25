@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 2f762bb1283fa1f47896122043c3f827
+timeCreated: 1520498706
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Prefabs/Grass/Grass 2/Grass Summer.prefab
+  uploadId: 235012

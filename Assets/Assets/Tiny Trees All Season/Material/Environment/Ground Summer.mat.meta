@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f3c5f1bc38fe4fa4aae679d4e04e13b7
+timeCreated: 1519549571
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Material/Environment/Ground Summer.mat
+  uploadId: 235012

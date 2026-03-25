@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: fb5e4d4f294121e4e8aedcd12cf5c2aa
+timeCreated: 1519549571
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112580
+  packageName: Tiny Trees - All Season
+  packageVersion: 1.1
+  assetPath: Assets/Tiny Trees All Season/Material/Environment/Ground Spring.mat
+  uploadId: 235012
