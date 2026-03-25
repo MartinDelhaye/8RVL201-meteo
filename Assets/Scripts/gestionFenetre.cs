@@ -4,7 +4,9 @@ using Unity.VisualScripting;
 
 public class GestionFenetre : MonoBehaviour
 {
-    private int lastCode = -1; // code météo par défaut
+    private int lastCode = -1;
+    private int lastHour = -1;
+    private Material lastSkyboxDay;
     private Coroutine rotateCoroutine;
 
     [Header("Particles")]
@@ -67,6 +69,13 @@ public class GestionFenetre : MonoBehaviour
             lastCode = currentCode;
             UpdateMeteo();
         }
+
+        int currentHour = WeatherController.Instance.currentHourIndex;
+        if (currentHour != lastHour)
+        {
+            lastHour = currentHour;
+            UpdateHour();
+        }
     }
 
     void PlaySound(AudioClip clip)
@@ -120,35 +129,47 @@ public class GestionFenetre : MonoBehaviour
         }
 
         // 🔹 SKYBOX + TEXTURE (avec gestion nuit)
-        if (!isDay)
+        if (isSnow)
         {
-            skyboxEte.material = skyNight;
-            skyboxNeige.material = skyNight;
-            planeRenderer.material.SetTexture("_BaseMap", textureCamEte);
-        }
-        else if (isSnow)
-        {
-            skyboxEte.material = skyRain;
             skyboxNeige.material = skyRain;
+            lastSkyboxDay = skyRain;
             planeRenderer.material.SetTexture("_BaseMap", textureCamNeige);
         }
         else if (isRain)
         {
             skyboxEte.material = skyRain;
-            skyboxNeige.material = skyRain;
+            lastSkyboxDay = skyRain;
             planeRenderer.material.SetTexture("_BaseMap", textureCamEte);
         }
         else if (isCloud)
         {
             skyboxEte.material = skyCloud;
-            skyboxNeige.material = skyCloud;
+            lastSkyboxDay = skyCloud;
             planeRenderer.material.SetTexture("_BaseMap", textureCamEte);
         }
         else if (isSun)
         {
-            planeRenderer.material.SetTexture("_BaseMap", textureCamEte);
             skyboxEte.material = skySun;
-            skyboxNeige.material = skySun;
+            lastSkyboxDay = skySun;
+            planeRenderer.material.SetTexture("_BaseMap", textureCamEte);
+        }
+    }
+
+    void UpdateHour()
+    {
+        int hour = WeatherController.Instance.currentHourIndex;
+        bool isDay = (hour >= 6 && hour < 18);
+
+        if (!isDay)
+        {
+            skyboxEte.material = skyNight;
+        }
+        else
+        {
+            if (lastSkyboxDay != null)
+                skyboxEte.material = lastSkyboxDay;
+            else
+                skyboxEte.material = skySun;
         }
 
         if (lightPaysage != null)
@@ -160,26 +181,24 @@ public class GestionFenetre : MonoBehaviour
             rotateCoroutine = StartCoroutine(RotateLight(angle));
             lightPaysage.intensity = 5;
         }
-
-        IEnumerator RotateLight(float targetAngle)
-        {
-            float duration = 3f;
-            Quaternion startRotation = lightPaysage.transform.rotation;
-            Quaternion targetRotation = Quaternion.Euler(
-                targetAngle,
-                lightPaysage.transform.eulerAngles.y,
-                lightPaysage.transform.eulerAngles.z
-            );
-            float time = 0f;
-            while (time < duration)
-            {
-                float t = time / duration;
-                lightPaysage.transform.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
-                time += Time.deltaTime;
-                yield return null;
-            }
-            lightPaysage.transform.rotation = targetRotation;
-        }
         DynamicGI.UpdateEnvironment();
     }
+
+    IEnumerator RotateLight(float targetAngle)
+    {
+        float duration = 3f;
+        Quaternion startRotation = lightPaysage.transform.rotation;
+        Quaternion targetRotation = Quaternion.Euler(targetAngle, -90f, -90f);
+
+        float time = 0f;
+        while (time < duration)
+        {
+            float t = time / duration;
+            lightPaysage.transform.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        lightPaysage.transform.rotation = targetRotation;
+    }
 }
+
