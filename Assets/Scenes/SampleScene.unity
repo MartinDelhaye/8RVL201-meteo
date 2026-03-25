@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 15564a6c2e4479b45849b6b27dbbe057, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: c56e28e54cac24b04ae3dd957d214534, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -3828,8 +3828,10 @@ MonoBehaviour:
   skyNight: {fileID: 2100000, guid: 9af23ba5fa5364ff598888460e0e2759, type: 2}
   skyRain: {fileID: 2100000, guid: f2b5f3f20933f434e850db1b710542fd, type: 2}
   skyCloud: {fileID: 2100000, guid: 2d796ced94d61438fbab81b194038162, type: 2}
-  camEte: {fileID: 8400000, guid: c9dd3f3a8146bf34990566e25afe4ff9, type: 2}
-  camNeige: {fileID: 8400000, guid: b5cd660619b86824ca8049a9830d8619, type: 2}
+  textureCamEte: {fileID: 8400000, guid: c9dd3f3a8146bf34990566e25afe4ff9, type: 2}
+  textureCamNeige: {fileID: 8400000, guid: b5cd660619b86824ca8049a9830d8619, type: 2}
+  cameraEte: {fileID: 1491463412}
+  cameraNeige: {fileID: 1978555102}
   planeRenderer: {fileID: 585944239}
   audioSource: {fileID: 686405848}
   rainSound: {fileID: 8300000, guid: 7eaf418997ff63947adec1b22154be06, type: 3}
@@ -7759,6 +7761,7 @@ GameObject:
   - component: {fileID: 1491463409}
   - component: {fileID: 1491463412}
   - component: {fileID: 1491463410}
+  - component: {fileID: 1491463413}
   m_Layer: 3
   m_Name: Paysage2Camera
   m_TagString: Untagged
@@ -7877,6 +7880,15 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!45 &1491463413
+Skybox:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491463408}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 0}
 --- !u!1 &1517550861
 GameObject:
   m_ObjectHideFlags: 0
@@ -8866,13 +8878,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959036059}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6478922, y: -0.28325912, z: -0.28325912, w: 0.6478922}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: -22.51, y: 8.6, z: -13.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2132820488}
-  m_LocalEulerAnglesHint: {x: 42.77, y: -90, z: -90}
+  m_LocalEulerAnglesHint: {x: 180, y: -90, z: -90}
 --- !u!114 &1959036061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9074,6 +9086,7 @@ GameObject:
   - component: {fileID: 1978555099}
   - component: {fileID: 1978555102}
   - component: {fileID: 1978555100}
+  - component: {fileID: 1978555103}
   m_Layer: 3
   m_Name: Paysage1Camera
   m_TagString: Untagged
@@ -9180,7 +9193,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: b5cd660619b86824ca8049a9830d8619, type: 2}
   m_TargetDisplay: 0
@@ -9192,6 +9205,15 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!45 &1978555103
+Skybox:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978555098}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 0}
 --- !u!1001 &2018765720
 PrefabInstance:
   m_ObjectHideFlags: 0

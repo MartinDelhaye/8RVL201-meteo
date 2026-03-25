@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class GestionFenetre : MonoBehaviour
 {
@@ -18,8 +19,14 @@ public class GestionFenetre : MonoBehaviour
     public Material skyCloud;
 
     [Header("Render Textures")]
-    public RenderTexture camEte;
-    public RenderTexture camNeige;
+    public RenderTexture textureCamEte;
+    public RenderTexture textureCamNeige;
+
+    [Header("Cameras Paysage")]
+    public Camera cameraEte;
+    public Camera cameraNeige;
+    private Skybox skyboxEte;
+    private Skybox skyboxNeige;
 
     [Header("Objet à modifier")]
     public Renderer planeRenderer;
@@ -37,6 +44,8 @@ public class GestionFenetre : MonoBehaviour
     void Start()
     {
         WeatherManager.OnWeatherReady += Init;
+        skyboxEte = cameraEte.GetComponent<Skybox>();
+        skyboxNeige = cameraNeige.GetComponent<Skybox>();
     }
 
     void Init()
@@ -70,8 +79,7 @@ public class GestionFenetre : MonoBehaviour
     void UpdateMeteo()
     {
         int codeMeteo = WeatherController.Instance.weatherCode;
-        //int hour = WeatherController.Instance.currentHourIndex;
-        int hour = 22;
+        int hour = WeatherController.Instance.currentHourIndex;
 
         bool isDay = (hour >= 6 && hour < 18);
 
@@ -112,49 +120,45 @@ public class GestionFenetre : MonoBehaviour
         // 🔹 SKYBOX + TEXTURE (avec gestion nuit)
         if (!isDay)
         {
-            RenderSettings.skybox = skyNight;
-            planeRenderer.material.SetTexture("_BaseMap", camEte);
+            skyboxEte.material = skyNight;
+            skyboxNeige.material = skyNight;
+            planeRenderer.material.SetTexture("_BaseMap", textureCamEte);
         }
         else if (isSnow)
         {
-            RenderSettings.skybox = skyRain;
-            planeRenderer.material.SetTexture("_BaseMap", camNeige);
+            skyboxEte.material = skyRain;
+            skyboxNeige.material = skyRain;
+            planeRenderer.material.SetTexture("_BaseMap", textureCamNeige);
         }
         else if (isRain)
         {
-            RenderSettings.skybox = skyRain;
-            planeRenderer.material.SetTexture("_BaseMap", camEte);
+            skyboxEte.material = skyRain;
+            skyboxNeige.material = skyRain;
+            planeRenderer.material.SetTexture("_BaseMap", textureCamEte);
         }
         else if (isCloud)
         {
-            RenderSettings.skybox = skyCloud;
-            planeRenderer.material.SetTexture("_BaseMap", camEte);
+            skyboxEte.material = skyCloud;
+            skyboxNeige.material = skyCloud;
+            planeRenderer.material.SetTexture("_BaseMap", textureCamEte);
         }
         else if (isSun)
         {
-            RenderSettings.skybox = skySun;
-            planeRenderer.material.SetTexture("_BaseMap", camEte);
+            planeRenderer.material.SetTexture("_BaseMap", textureCamEte);
+            skyboxEte.material = skySun;
+            skyboxNeige.material = skySun;
         }
 
-        // 🔹 LUMIÈRE (soleil)
         if (lightPaysage != null)
         {
-            if (!isDay)
-            {
-                lightPaysage.enabled = true;
-                lightPaysage.intensity = 5;
-            }
-            else
-            {
-                lightPaysage.enabled = true;
+            lightPaysage.enabled = true;
 
-                float t = Mathf.InverseLerp(6f, 18f, hour);
-                float angle = Mathf.Lerp(15f, 150f, t);
+            float t = hour / 23f;
+            float angle = Mathf.Lerp(0f, 180f, t);
 
-                lightPaysage.transform.rotation = Quaternion.Euler(angle, 0f, 0f);
+            lightPaysage.transform.rotation = Quaternion.Euler(angle, -90f, -90f);
 
-                lightPaysage.intensity = 5;
-            }
+            lightPaysage.intensity = 5;
         }
 
         // 🔥 Update lumière globale
