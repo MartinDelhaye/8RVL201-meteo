@@ -80,7 +80,6 @@ public class WeatherController : MonoBehaviour
         if (currentDayIndex < weatherDays.Length - 1)
         {
             currentDayIndex++;
-            currentHourIndex = 0;
             DisplayCurrent();
         }
     }
@@ -90,7 +89,6 @@ public class WeatherController : MonoBehaviour
         if (currentDayIndex > 0)
         {
             currentDayIndex--;
-            currentHourIndex = 0;
             DisplayCurrent();
         }
     }

@@ -4,7 +4,8 @@ using Unity.VisualScripting;
 
 public class GestionFenetre : MonoBehaviour
 {
-    int lastCode = -1; // code météo par défaut
+    private int lastCode = -1; // code météo par défaut
+    private Coroutine rotateCoroutine;
 
     [Header("Particles")]
     public GameObject rainParticles;
@@ -51,6 +52,7 @@ public class GestionFenetre : MonoBehaviour
     void Init()
     {
         WeatherManager.OnWeatherReady -= Init;
+        audioSource.volume = 2f;
         UpdateMeteo();
     }
 
@@ -152,16 +154,32 @@ public class GestionFenetre : MonoBehaviour
         if (lightPaysage != null)
         {
             lightPaysage.enabled = true;
-
-            float t = hour / 23f;
-            float angle = Mathf.Lerp(0f, 180f, t);
-
-            lightPaysage.transform.rotation = Quaternion.Euler(angle, -90f, -90f);
-
+            float angle = (hour / 23f) * 180f;
+            if (rotateCoroutine != null)
+                StopCoroutine(rotateCoroutine);
+            rotateCoroutine = StartCoroutine(RotateLight(angle));
             lightPaysage.intensity = 5;
         }
 
-        // 🔥 Update lumière globale
+        IEnumerator RotateLight(float targetAngle)
+        {
+            float duration = 3f;
+            Quaternion startRotation = lightPaysage.transform.rotation;
+            Quaternion targetRotation = Quaternion.Euler(
+                targetAngle,
+                lightPaysage.transform.eulerAngles.y,
+                lightPaysage.transform.eulerAngles.z
+            );
+            float time = 0f;
+            while (time < duration)
+            {
+                float t = time / duration;
+                lightPaysage.transform.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            lightPaysage.transform.rotation = targetRotation;
+        }
         DynamicGI.UpdateEnvironment();
     }
 }

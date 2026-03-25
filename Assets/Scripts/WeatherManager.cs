@@ -46,6 +46,9 @@ public class WeatherManager : MonoBehaviour
 
             TransformData(data);
             weatherData.isDataRecuperee = true;
+
+            int actualHour = DateTime.Now.Hour;
+            WeatherController.Instance.currentHourIndex = actualHour;
             OnWeatherReady?.Invoke();
         }
         else
